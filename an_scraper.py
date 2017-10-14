@@ -27,9 +27,9 @@ def scrape_category(url, songs):
 
 @timeout(10, "10 seconds expired")
 def dl(song, mp3, i, l):
-    filename = "{}.mp3".format(song)
+    filename = "songs/{}.mp3".format(song)
     if os.path.isfile(filename):
-        print 'already downloaded {}.mp3\t({} of {})\n'.format(song, i, l)
+        print 'already downloaded {}.mp3\t({} of {})'.format(song, i, l)
         return
     print 'downloading {}.mp3\t({} of {})'.format(song, i, l)
     urllib.urlretrieve(mp3, filename)
@@ -40,6 +40,7 @@ def main():
     parser.add_argument('-r', default=False, type=bool, help='see README.md for information')
     args = parser.parse_args()
     categories = set()
+    total_categories = []
     songs = set()
     with open('data/categories.txt', 'r') as f:
         for line in f:
@@ -59,17 +60,21 @@ def main():
                 if category in categories:
                     categories.remove(category)
                     some = True
+                    if some and not args.r:
+                        print "loading category '{}' from songs.json".format(category)
+                        total_categories.append(category)
             if some and not args.r:
-                for song in parsed:
+                for song in parsed['songs']:
                     songs.add(tuple(song))
             del parsed
     for category in categories:
         print '\nfinding songs in category: {}\n'.format(category)
+        total_categories.append(category)
         scrape_category(category, songs)
     print '\nwriting songs to json...\n'
     with open('data/songs.json', 'w+') as f:
         json.dump({
-            "categories": list(categories),
+            "categories": total_categories,
             "songs": list(songs)
         }, f, indent=4)
     l = len(songs)
