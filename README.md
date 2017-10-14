@@ -2,19 +2,21 @@
 audio network scraper
 
 
-anw-dl.py is a scraper for one song at a time
+anw_dl.py is a scraper for one song at a time
 
-usage: anw.py [url to song]
+usage: anw_dl.py [url to song]
 
 can also download secondary songs (e.g. https://www.audionetwork.com/browse/m/track/conversation-2_49932)
 
 
-an-dl.py also downloads one song, same functionality and usage as anw-dl, but it is generally slower because it only works on one audionetwork page layout, and their A/B testing makes it fail often
+an_dl.py also downloads one song, same functionality and usage as anw-dl, but it is generally slower because it only works on one audionetwork page layout, and their A/B testing makes it fail often
+
+an_scraper depends on this, which is why it exists
 
 
-an-scraper.py is a scraper for several categories at a time
+an_scraper.py is a scraper for several categories at a time
 
-usage: an-scraper.py (-r [0 or 1])
+usage: an_scraper.py (-r [0 or 1])
 
 to download categories, you must copy the url of the category into data/categories.txt, one category per line
 

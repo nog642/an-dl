@@ -52,8 +52,6 @@ def main():
                 parsed = json.load(f)
         except ValueError:
             print 'songs.json is invalid'
-            import sys
-            sys.exit(-1)
         else:
             some = False
             for category in parsed['categories']:
