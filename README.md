@@ -1,6 +1,7 @@
 # an-dl
 audio network scraper
 
+## anw_dl.py
 
 anw_dl.py is a scraper for one song at a time
 
@@ -8,11 +9,13 @@ usage: anw_dl.py [url to song]
 
 can also download secondary songs (e.g. https://www.audionetwork.com/browse/m/track/conversation-2_49932)
 
+## an_dl.py
 
 an_dl.py also downloads one song, same functionality and usage as anw-dl, but it is generally slower because it only works on one audionetwork page layout, and their A/B testing makes it fail often
 
 an_scraper depends on this, which is why it exists
 
+## an_scraper.py
 
 an_scraper.py is a scraper for several categories at a time
 
