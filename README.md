@@ -5,7 +5,7 @@ audio network scraper
 
 anw_dl.py is a scraper for one song at a time
 
-usage: anw_dl.py [url to song]
+	usage: anw_dl.py [url to song]
 
 can also download secondary songs (e.g. https://www.audionetwork.com/browse/m/track/conversation-2_49932)
 
@@ -19,16 +19,16 @@ an_scraper depends on this, which is why it exists
 
 an_scraper.py is a scraper for several categories at a time
 
-usage: an_scraper.py (-r [0 or 1])
+	usage: an_scraper.py (-r [0 or 1])
 
 to download categories, you must copy the url of the category into data/categories.txt, one category per line
 
 example categories.txt:
 
-https://www.audionetwork.com/browse/m/musical-styles/latin/bossa-nova/results
-https://www.audionetwork.com/browse/m/musical-styles/musical-styles/chill-out/results
-https://www.audionetwork.com/browse/m/musical-styles/musical-styles/electronica/results
-https://www.audionetwork.com/browse/m/musical-styles/musical-styles/trip-hop-downbeat/results
+	https://www.audionetwork.com/browse/m/musical-styles/latin/bossa-nova/results
+	https://www.audionetwork.com/browse/m/musical-styles/musical-styles/chill-out/results
+	https://www.audionetwork.com/browse/m/musical-styles/musical-styles/electronica/results
+	https://www.audionetwork.com/browse/m/musical-styles/musical-styles/trip-hop-downbeat/results
 
 the -r argument takes 0 or 1 as an argument (just converts input with bool() in python, will not throw exception if it's not 0 or 1)
 
