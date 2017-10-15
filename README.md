@@ -44,33 +44,33 @@ it saves songs as mp3 files in the songs directory
 
 it saves song URLs and the categories they came from in data/songs.json, formatted as such:
 
-{
-    "categories": [
-        "https://www.audionetwork.com/browse/m/musical-styles/latin/bossa-nova/results",
-        "https://www.audionetwork.com/browse/m/musical-styles/musical-styles/electronica/results",
-        "https://www.audionetwork.com/browse/m/musical-styles/musical-styles/chill-out/results",
-        "https://www.audionetwork.com/browse/m/musical-styles/musical-styles/trip-hop-downbeat/results",
-    ],
-    "songs": [
-        [
-            "Coral", 
-            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW1024/06.mp3"
-        ], 
-        [
-            "Glider", 
-            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW1094/06.mp3"
-        ],
-        ...
-        [
-            "Cosmic Hustle", 
-            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW2078/01.mp3"
-        ], 
-        [
-            "Storm Warning", 
-            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW1665/01.mp3"
-        ]
-    ]
-}
+	{
+	    "categories": [
+	        "https://www.audionetwork.com/browse/m/musical-styles/latin/bossa-nova/results",
+	        "https://www.audionetwork.com/browse/m/musical-styles/musical-styles/electronica/results",
+	        "https://www.audionetwork.com/browse/m/musical-styles/musical-styles/chill-out/results",
+	        "https://www.audionetwork.com/browse/m/musical-styles/musical-styles/trip-hop-downbeat/results",
+	    ],
+	    "songs": [
+	        [
+	            "Coral", 
+	            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW1024/06.mp3"
+	        ], 
+	        [
+	            "Glider", 
+	            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW1094/06.mp3"
+	        ],
+	        ...
+	        [
+	            "Cosmic Hustle", 
+	            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW2078/01.mp3"
+	        ], 
+	        [
+	            "Storm Warning", 
+	            "http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW1665/01.mp3"
+	        ]
+	    ]
+	}
 
 it will check if the song is already in the songs folder, and if it is it will not download it again
 
