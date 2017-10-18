@@ -8,13 +8,6 @@ from lib import Unbuffered
 sys.stdout = Unbuffered(sys.stdout)
 
 
-caps = DesiredCapabilities.CHROME
-caps['loggingPrefs'] = {'performance': 'ALL'}
-driver = webdriver.Chrome(desired_capabilities=caps)
-driver.get('https://www.audionetwork.com/browse/m/track/daybreak_4259')
-
-
-
 def anw_dl(url, chromedriver_path=None):
 
     sys.stdout.write('setting up webdriver...')
