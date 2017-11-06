@@ -7,6 +7,10 @@ import json
 import an_dl
 from lib import timeout
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 def scrape_category(url, songs):
     page = 0
