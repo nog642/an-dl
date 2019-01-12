@@ -6,6 +6,10 @@ from bs4 import BeautifulSoup
 opener = urllib2.build_opener()
 opener.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')]
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 def children(tag):
     return [child for child in tag.children if type(child) == bs4.element.Tag]

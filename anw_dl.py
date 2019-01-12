@@ -7,6 +7,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from lib import Unbuffered
 sys.stdout = Unbuffered(sys.stdout)
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 
 def anw_dl(url, chromedriver_path=None):
 
