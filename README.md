@@ -15,6 +15,8 @@ Can also download secondary songs. (e.g. https://www.audionetwork.com/browse/m/t
 
 `an_scraper.py` depends on this, which is why it exists.
 
+Requires chromedriver.
+
 ## an_scraper.py
 
 `an_scraper.py` is a scraper for several categories at a time.
