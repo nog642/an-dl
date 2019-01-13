@@ -9,13 +9,15 @@ usage: `anw_dl.py [url to song]`
 
 Can also download secondary songs. (e.g. https://www.audionetwork.com/browse/m/track/conversation-2_49932)
 
+Requires chromedriver.
+
 ## an_dl.py
 
 `an_dl.py` also downloads one song, same functionality and usage as `anw_dl.py`, but it is generally slower because it only works on one audionetwork page layout, and their A/B testing makes it fail often.
 
 `an_scraper.py` depends on this, which is why it exists.
 
-Requires chromedriver.
+Depends on [bs4](https://pypi.org/project/bs4/).
 
 ## an_scraper.py
 

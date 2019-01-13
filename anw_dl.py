@@ -1,14 +1,14 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 import sys
 import urllib
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.action_chains import ActionChains
-from lib import Unbuffered
-sys.stdout = Unbuffered(sys.stdout)
+from lib import unbuffer, setdefaultencoding
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+setdefaultencoding()
+unbuffer()
 
 
 def anw_dl(url, chromedriver_path=None):

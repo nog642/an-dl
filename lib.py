@@ -1,8 +1,13 @@
 #!/usr/bin/env python2
-from functools import wraps
+# -*- coding: utf-8 -*-
 import errno
+from functools import wraps
 import os
 import signal
+import sys
+
+STDOUT_UNBUFFERED = False
+DEFAULT_ENCODING_SET = False
 
 
 class TimeoutError(Exception):
@@ -43,3 +48,18 @@ class Unbuffered(object):
 
     def __getattr__(self, attr):
         return getattr(self.stream, attr)
+
+
+def unbuffer():
+    global STDOUT_UNBUFFERED
+    if not STDOUT_UNBUFFERED:
+        sys.stdout = Unbuffered(sys.stdout)
+        STDOUT_UNBUFFERED = True
+
+
+def setdefaultencoding():
+    global DEFAULT_ENCODING_SET
+    if not DEFAULT_ENCODING_SET:
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
+        DEFAULT_ENCODING_SET = True

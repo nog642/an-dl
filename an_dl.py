@@ -1,14 +1,17 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 import urllib2
 import urllib
 import bs4
 from bs4 import BeautifulSoup
-opener = urllib2.build_opener()
-opener.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')]
+from lib import setdefaultencoding
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+setdefaultencoding()
+
+opener = urllib2.build_opener()
+opener.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) '
+                                    'AppleWebKit/537.36 (KHTML, like Gecko) '
+                                    'Chrome/61.0.3163.100 Safari/537.36')]
 
 
 def children(tag):

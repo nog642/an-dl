@@ -1,15 +1,12 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+import argparse
+import os
+import json
 import urllib
 from urllib2 import HTTPError
-import os
-import argparse
-import json
 import an_dl
 from lib import timeout
-
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 
 def scrape_category(url, songs):
@@ -29,7 +26,7 @@ def scrape_category(url, songs):
             succeed = False
 
 
-@timeout(10, "10 seconds expired")
+@timeout(12, "12 seconds expired")
 def dl(song, mp3, i, l):
     filename = "songs/{}.mp3".format(song)
     if os.path.isfile(filename):
