@@ -5,15 +5,17 @@
 
 `anw_dl.py` is a scraper for one song at a time.
 
-usage: `anw_dl.py [url to song]`
+usage: `anw_dl.py <url to song>`
 
 Can also download secondary songs. (e.g. https://www.audionetwork.com/browse/m/track/conversation-2_49932)
 
-Requires chromedriver.
+Depends on [selenium](https://pypi.org/project/selenium/) and requires chromedriver.
 
 ## an_dl.py
 
 `an_dl.py` also downloads one song, same functionality and usage as `anw_dl.py`, but it is generally slower because it only works on one audionetwork page layout, and their A/B testing makes it fail often.
+
+usage: `an_dl.py <url to song>`
 
 `an_scraper.py` depends on this, which is why it exists.
 
@@ -23,7 +25,7 @@ Depends on [bs4](https://pypi.org/project/bs4/).
 
 `an_scraper.py` is a scraper for several categories at a time.
 
-usage: `an_scraper.py (-r [0 or 1])`
+usage: `an_scraper.py [(-r | --redownload) (0 or 1)] [(-t | --timeout) <timeout>])`
 
 To download categories, you must copy the URL of the category into `./data/categories.txt`, one category per line.
 
@@ -41,6 +43,8 @@ Since `./data/songs.json` only stores all the songs from the last run, but doesn
 If `-r` is `0`, it will try to download all the songs in `songs.json`, including some that may not be in the categories you have selected. keep in mind that if the files are already in the songs directory, this will be the faster option.
 
 If `-r` is `1`, it will not use `songs.json`, but rather scrape audio network again for the song URLs, which is the faster option if the audio files from the last run are not in the songs directory.
+
+Timeout can be specified, and is an integer representing seconds.
 
 Songs that are in multiple categories will not be downloaded twice.
 

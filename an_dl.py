@@ -1,14 +1,16 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-import urllib2
-import urllib
+"""
+HTML-based single-song Audio Network downloader.
+"""
+from urllib2 import build_opener
+from urllib import urlretrieve
 import bs4
-from bs4 import BeautifulSoup
 from lib import setdefaultencoding
 
 setdefaultencoding()
 
-opener = urllib2.build_opener()
+opener = build_opener()
 opener.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) '
                                     'AppleWebKit/537.36 (KHTML, like Gecko) '
                                     'Chrome/61.0.3163.100 Safari/537.36')]
@@ -20,7 +22,7 @@ def children(tag):
 
 def grab_data(url):
     page = opener.open(url).read()
-    soup = BeautifulSoup(page, 'html.parser')
+    soup = bs4.BeautifulSoup(page, 'html.parser')
     results = soup.find_all('span', class_='result-title')
     if not results:
         print 'failed because of A/B testing'
@@ -51,15 +53,18 @@ def an_dl(url):
     mp3 = 'http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW{}/{}.mp3'.format(vals[0], vals[1].zfill(2))
     print mp3
     print 'downloading audio file...'
-    urllib.urlretrieve(mp3, "{}.mp3".format(song))
+    urlretrieve(mp3, "{}.mp3".format(song))
     print 'done.'
     print 'saved as "{}.mp3"'.format(song)
 
 
-if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser()
+def main():
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
     parser.add_argument('url')
     args = parser.parse_args()
     an_dl(args.url)
 
+
+if __name__ == '__main__':
+    main()

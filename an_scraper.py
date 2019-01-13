@@ -1,11 +1,10 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-from argparse import ArgumentParser
-import os
 import json
-import urllib
+import os
+from urllib import urlretrieve
 from urllib2 import HTTPError
-import an_dl
+from an_dl import grab_data
 from lib import timeout
 
 
@@ -15,7 +14,7 @@ def scrape_category(url, songs):
     while succeed:
         try:
             page += 1
-            nums, names, title = an_dl.grab_data(
+            nums, names, title = grab_data(
                 url + '?page={}&size=3'.format(page)
             )
             for name, num in zip(names, nums):
@@ -38,7 +37,7 @@ def set_dl_timeout(time_out=10):
             print 'already downloaded {}.mp3\t({} of {})'.format(song, i, l)
             return
         print 'downloading {}.mp3\t({} of {})'.format(song, i, l)
-        urllib.urlretrieve(mp3, filename)
+        urlretrieve(mp3, filename)
 
 
 set_dl_timeout()
@@ -107,10 +106,11 @@ def an_scraper(redownload=False, time_out=None):
 
 
 def main():
+    from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('-r', '--redownload', default=False, type=bool,
                         help='see README.md for information')
-    parser.add_argument('-t', '--timeout', default=None, type=int,
+    parser.add_argument('-t', '--timeout', type=int,
                         help='timeout (integer) (in seconds)')
     args = parser.parse_args()
     an_scraper(args.redownload, args.timeout)
