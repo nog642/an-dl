@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-import argparse
+from argparse import ArgumentParser
 import os
 import json
 import urllib
@@ -15,7 +15,9 @@ def scrape_category(url, songs):
     while succeed:
         try:
             page += 1
-            nums, names, title = an_dl.grab_data(url + '?page={}&size=3'.format(page))
+            nums, names, title = an_dl.grab_data(
+                url + '?page={}&size=3'.format(page)
+            )
             for name, num in zip(names, nums):
                 songs.add((name, 'http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW{}/{}.mp3'.format(
                     num[0],
@@ -26,20 +28,29 @@ def scrape_category(url, songs):
             succeed = False
 
 
-@timeout(12, "12 seconds expired")
-def dl(song, mp3, i, l):
-    filename = "songs/{}.mp3".format(song)
-    if os.path.isfile(filename):
-        print 'already downloaded {}.mp3\t({} of {})'.format(song, i, l)
-        return
-    print 'downloading {}.mp3\t({} of {})'.format(song, i, l)
-    urllib.urlretrieve(mp3, filename)
+def set_dl_timeout(time_out=10):
+    global dl
+
+    @timeout(time_out, "{} seconds expired".format(time_out))
+    def dl(song, mp3, i, l):
+        filename = "songs/{}.mp3".format(song)
+        if os.path.isfile(filename):
+            print 'already downloaded {}.mp3\t({} of {})'.format(song, i, l)
+            return
+        print 'downloading {}.mp3\t({} of {})'.format(song, i, l)
+        urllib.urlretrieve(mp3, filename)
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-r', default=False, type=bool, help='see README.md for information')
-    args = parser.parse_args()
+set_dl_timeout()
+
+
+def an_scraper(redownload=False, time_out=None):
+
+    if time_out is not None:
+        if time_out < 0:
+            raise ValueError
+        set_dl_timeout(time_out)
+
     categories = set()
     total_categories = []
     songs = set()
@@ -59,10 +70,10 @@ def main():
                 if category in categories:
                     categories.remove(category)
                     some = True
-                    if some and not args.r:
+                    if some and not redownload:
                         print "loading category '{}' from songs.json".format(category)
                         total_categories.append(category)
-            if some and not args.r:
+            if some and not redownload:
                 for song in parsed['songs']:
                     songs.add(tuple(song))
             del parsed
@@ -76,7 +87,7 @@ def main():
             "categories": total_categories,
             "songs": list(songs)
         }, f, indent=4)
-    l = len(songs)
+    length = len(songs)
     i = 0
     if not os.path.isdir('songs'):
         os.makedirs('songs')
@@ -86,12 +97,23 @@ def main():
     for song, mp3 in songs:
         i += 1
         try:
-            dl(song, mp3, i, l)
+            dl(song, mp3, i, length)
         except Exception as e:
             print '{}: {}'.format(type(e).__name__, e)
             print 'skipping song, logging data'
             with open('data/skipped.log', 'a') as f:
-                f.write('{},{},{},{}\n'.format(repr(song), repr(mp3), type(e).__name__, e))
+                f.write('{},{},{},{}\n'.format(repr(song), repr(mp3),
+                                               type(e).__name__, e))
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument('-r', '--redownload', default=False, type=bool,
+                        help='see README.md for information')
+    parser.add_argument('-t', '--timeout', default=None, type=int,
+                        help='timeout (integer) (in seconds)')
+    args = parser.parse_args()
+    an_scraper(args.redownload, args.timeout)
 
 
 if __name__ == '__main__':
