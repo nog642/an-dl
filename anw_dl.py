@@ -88,7 +88,7 @@ def main():
     parser.add_argument('-p', '--chromedriver-path')
     args = parser.parse_args()
 
-    if not os.path.isfile(args.chromedriver_path):
+    if args.chromedriver_path is not None and not os.path.isfile(args.chromedriver_path):
         raise ValueError("--chromedriver-path '{}' is not a file".format(
             args.chromedriver_path
         ))
