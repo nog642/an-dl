@@ -5,7 +5,7 @@
 
 `anw_dl.py` is a scraper for one song at a time.
 
-usage: `anw_dl.py <url to song>`
+usage: `anw_dl.py <url to song> [(-p | --chromedriver-path) </path/to/chromedriver>]`
 
 Can also download secondary songs. (e.g. https://www.audionetwork.com/browse/m/track/conversation-2_49932)
 
