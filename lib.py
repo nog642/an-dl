@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import errno
 from functools import wraps
-import os
 import signal
 import sys
 
@@ -9,25 +7,34 @@ STDOUT_UNBUFFERED = False
 DEFAULT_ENCODING_SET = False
 
 
-class TimeoutError(Exception):
-    pass
-
-
-def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
+def timeout(seconds, error_message=None):
+    """
+    Decorator that will cause the function decorated to time out (raise a
+    TimeoutError) after a given number of seconds. These cannot be nested.
+    :param seconds:
+    :param error_message:
+    :return:
+    """
     def decorator(func):
-        def _handle_timeout(signum, frame):
-            raise TimeoutError(error_message)
+        if error_message is None:
+            def handle_timeout(signum, frame):
+                raise TimeoutError
+        else:
+            def handle_timeout(signum, frame):
+                raise TimeoutError(error_message)
 
+        @wraps(func)
         def wrapper(*args, **kwargs):
-            signal.signal(signal.SIGALRM, _handle_timeout)
+            old_handler = signal.signal(signal.SIGALRM, handle_timeout)
             signal.alarm(seconds)
             try:
                 result = func(*args, **kwargs)
             finally:
                 signal.alarm(0)
+                signal.signal(signal.SIGALRM, old_handler)
             return result
 
-        return wraps(func)(wrapper)
+        return wrapper
 
     return decorator
 
