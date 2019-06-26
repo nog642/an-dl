@@ -6,6 +6,8 @@ import os
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 from urllib.request import urlretrieve
 
 
@@ -32,6 +34,9 @@ def anw_dl(url, chromedriver_path=None):
 
     print('loading web page...', end='', flush=True)
     driver.get(url)
+    WebDriverWait(driver, 10).until_not(EC.title_is('Loading..'))
+    print(' done.')
+
     song = driver.title.split(' - ')[0]
     words = song.split(' ')
     last = words[-1]
@@ -40,7 +45,7 @@ def anw_dl(url, chromedriver_path=None):
         num = int(words[-1 - spec])
     except ValueError:
         num = 1
-    print(' done.')
+
     print('intercepting network requests...', end='', flush=True)
     players = driver.find_elements_by_class_name('play')
     if not players:
