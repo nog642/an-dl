@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 import errno
 from functools import wraps
 import os
@@ -33,7 +32,7 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
     return decorator
 
 
-class Unbuffered(object):
+class Unbuffered:
 
     def __init__(self, stream):
         self.stream = stream
@@ -55,11 +54,3 @@ def unbuffer():
     if not STDOUT_UNBUFFERED:
         sys.stdout = Unbuffered(sys.stdout)
         STDOUT_UNBUFFERED = True
-
-
-def setdefaultencoding():
-    global DEFAULT_ENCODING_SET
-    if not DEFAULT_ENCODING_SET:
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
-        DEFAULT_ENCODING_SET = True

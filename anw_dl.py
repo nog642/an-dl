@@ -1,17 +1,14 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
 Selenium-based single-song Audio Network downloader.
 """
-from __future__ import print_function
 import os
-from urllib import urlretrieve
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from lib import setdefaultencoding, unbuffer
+from urllib.request import urlretrieve
+from lib import unbuffer
 
-setdefaultencoding()
 unbuffer()
 
 
@@ -29,7 +26,7 @@ def anw_dl(url, chromedriver_path=None):
     caps = DesiredCapabilities.CHROME
     caps['loggingPrefs'] = {'performance': 'ALL'}
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--headless')
     chrome_args = {'desired_capabilities': caps, 'chrome_options': chrome_options}
     if chromedriver_path is not None:
         chrome_args['executable_path'] = chromedriver_path
@@ -48,7 +45,7 @@ def anw_dl(url, chromedriver_path=None):
         num = 1
     print(' done.')
     print('intercepting network requests...', end='')
-    players = driver.find_elements_by_class_name("play")
+    players = driver.find_elements_by_class_name('play')
     if not players:
         print()
         print('err: player not found')
@@ -73,9 +70,9 @@ def anw_dl(url, chromedriver_path=None):
         return 1
     driver.quit()
     print('downloading audio file...', end='')
-    urlretrieve(mp3, "{}.mp3".format(song))
+    urlretrieve(mp3, '{}.mp3'.format(song))
     print(' done.')
-    print('saved as "{}.mp3"'.format(song))
+    print("saved as '{}.mp3'".format(song))
 
     return 0
 
