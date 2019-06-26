@@ -7,9 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from urllib.request import urlretrieve
-from lib import unbuffer
-
-unbuffer()
 
 
 def anw_dl(url, chromedriver_path=None):
@@ -22,7 +19,7 @@ def anw_dl(url, chromedriver_path=None):
     :return: exit code
     """
 
-    print('setting up webdriver...', end='')
+    print('setting up webdriver...', end='', flush=True)
     caps = DesiredCapabilities.CHROME
     caps['loggingPrefs'] = {'performance': 'ALL'}
     chrome_options = webdriver.ChromeOptions()
@@ -33,7 +30,7 @@ def anw_dl(url, chromedriver_path=None):
     driver = webdriver.Chrome(**chrome_args)
     print(' done.')
 
-    print('loading web page...', end='')
+    print('loading web page...', end='', flush=True)
     driver.get(url)
     song = driver.title.split(' - ')[0]
     words = song.split(' ')
@@ -44,7 +41,7 @@ def anw_dl(url, chromedriver_path=None):
     except ValueError:
         num = 1
     print(' done.')
-    print('intercepting network requests...', end='')
+    print('intercepting network requests...', end='', flush=True)
     players = driver.find_elements_by_class_name('play')
     if not players:
         print()
@@ -56,7 +53,7 @@ def anw_dl(url, chromedriver_path=None):
     print(' done.')
     players[num - 1].click()
 
-    print('extracting audio file...', end='')
+    print('extracting audio file...', end='', flush=True)
     mp3 = ''
     for entry in driver.get_log('performance'):
         if 'mp3' in entry['message']:
@@ -69,7 +66,7 @@ def anw_dl(url, chromedriver_path=None):
         print('err: mp3 not found')
         return 1
     driver.quit()
-    print('downloading audio file...', end='')
+    print('downloading audio file...', end='', flush=True)
     urlretrieve(mp3, '{}.mp3'.format(song))
     print(' done.')
     print("saved as '{}.mp3'".format(song))
