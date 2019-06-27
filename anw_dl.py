@@ -1,20 +1,14 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
 Selenium-based single-song Audio Network downloader.
 """
-from __future__ import print_function
 import os
-from urllib import urlretrieve
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from lib import setdefaultencoding, unbuffer
-
-setdefaultencoding()
-unbuffer()
+from urllib.request import urlretrieve
 
 
 def anw_dl(url, chromedriver_path=None):
@@ -27,18 +21,18 @@ def anw_dl(url, chromedriver_path=None):
     :return: exit code
     """
 
-    print('setting up webdriver...', end='')
+    print('setting up webdriver...', end='', flush=True)
     caps = DesiredCapabilities.CHROME
     caps['loggingPrefs'] = {'performance': 'ALL'}
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--headless')
     chrome_args = {'desired_capabilities': caps, 'chrome_options': chrome_options}
     if chromedriver_path is not None:
         chrome_args['executable_path'] = chromedriver_path
     driver = webdriver.Chrome(**chrome_args)
     print(' done.')
 
-    print('loading web page...', end='')
+    print('loading web page...', end='', flush=True)
     driver.get(url)
     WebDriverWait(driver, 10).until_not(EC.title_is('Loading..'))
     print(' done.')
@@ -52,8 +46,8 @@ def anw_dl(url, chromedriver_path=None):
     except ValueError:
         num = 1
 
-    print('intercepting network requests...', end='')
-    players = driver.find_elements_by_class_name("play")
+    print('intercepting network requests...', end='', flush=True)
+    players = driver.find_elements_by_class_name('play')
     if not players:
         print()
         print('err: player not found')
@@ -64,7 +58,7 @@ def anw_dl(url, chromedriver_path=None):
     print(' done.')
     players[num - 1].click()
 
-    print('extracting audio file...', end='')
+    print('extracting audio file...', end='', flush=True)
     mp3 = ''
     for entry in driver.get_log('performance'):
         if 'mp3' in entry['message']:
@@ -77,10 +71,10 @@ def anw_dl(url, chromedriver_path=None):
         print('err: mp3 not found')
         return 1
     driver.quit()
-    print('downloading audio file...', end='')
-    urlretrieve(mp3, "{}.mp3".format(song))
+    print('downloading audio file...', end='', flush=True)
+    urlretrieve(mp3, '{}.mp3'.format(song))
     print(' done.')
-    print('saved as "{}.mp3"'.format(song))
+    print("saved as '{}.mp3'".format(song))
 
     return 0
 

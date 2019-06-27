@@ -1,14 +1,9 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
 HTML-based single-song Audio Network downloader.
 """
-from urllib2 import build_opener
-from urllib import urlretrieve
+from urllib.request import build_opener, urlretrieve
 import bs4
-from lib import setdefaultencoding
-
-setdefaultencoding()
 
 opener = build_opener()
 opener.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) '
@@ -25,20 +20,22 @@ def grab_data(url):
     soup = bs4.BeautifulSoup(page, 'html.parser')
     results = soup.find_all('span', class_='result-title')
     if not results:
-        print 'failed because of A/B testing'
-        print 'retrying...'
+        print('failed because of A/B testing')
+        print('retrying...')
         return grab_data(url)
     else:
-        data = [children(result) for result in soup.find_all('span', class_='result-title')]
+        data = [children(result) for result in
+                soup.find_all('span', class_='result-title')]
         return (
-            [result[1].string.strip().encode('ascii')[1:-1].split('/') for result in data],
+            [result[1].string.strip().encode('ascii')[1:-1].split('/') for
+             result in data],
             [children(result[0])[0].string for result in data],
             soup.title.string
         )
 
 
 def an_dl(url):
-    print 'grabbing song info...'
+    print('grabbing song info...')
     nums, _, title = grab_data(url)
     song = title.split(' - ')[0]
     words = song.split(' ')
@@ -48,14 +45,15 @@ def an_dl(url):
         num = int(words[-1 - spec])
     except ValueError:
         num = 1
-    print 'done.'
+    print('done.')
     vals = nums[num]
-    mp3 = 'http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW{}/{}.mp3'.format(vals[0], vals[1].zfill(2))
-    print mp3
-    print 'downloading audio file...'
-    urlretrieve(mp3, "{}.mp3".format(song))
-    print 'done.'
-    print 'saved as "{}.mp3"'.format(song)
+    mp3 = ('http://content2.audionetwork.com/Preview/tracks/mp3/v5res/ANW{}/'
+           '{}.mp3'.format(vals[0], vals[1].zfill(2)))
+    print(mp3)
+    print('downloading audio file...')
+    urlretrieve(mp3, '{}.mp3'.format(song))
+    print('done.')
+    print("saved as '{}.mp3'".format(song))
 
 
 def main():
