@@ -4,9 +4,6 @@ HTML-based single-song Audio Network downloader.
 """
 from urllib.request import build_opener, urlretrieve
 import bs4
-from lib import setdefaultencoding
-
-setdefaultencoding()
 
 opener = build_opener()
 opener.addheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) '
